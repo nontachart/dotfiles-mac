@@ -26,6 +26,7 @@ brew 'unrar'
 brew 'wget'
 brew 'yarn'
 brew 'youtube-dl'
+brew 'nvm'
 
 cask 'firefox'
 cask 'google-chrome'

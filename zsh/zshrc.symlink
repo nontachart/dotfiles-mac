@@ -1,8 +1,33 @@
+ECHO "Start"
+
+ECHO "Loading..."
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
+
+# Uncomment the following line to use case-sensitive completion.
+CASE_SENSITIVE="true"
+
+plugins=(
+  git
+  docker-compose
+  bundler
+  dotenv
+  osx
+  rake
+  # rbenv
+  # ruby
+  aws
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -19,12 +44,14 @@ config_files=($ZSH/**/*.zsh)
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}
 do
+  # echo $file
   source $file
 done
 
 # load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
 do
+  # echo $file
   source $file
 done
 
@@ -40,6 +67,42 @@ done
 
 unset config_files
 
+#dotfile
+alias open-dotfile="code $HOME/.dotfiles"
+
+alias c="code"
+alias zsh-config="c ~/.zshrc"
+alias zsh-compiler="source ~/.zshrc"
+alias ohmyzsh="c ~/.oh-my-zsh"
+
+#key
+alias get-pubkey="code ~/.ssh/id_rsa.pub"
+
+#aws config command
+alias aws-config="c ~/.aws/config"
+alias aws-credentials-config="c ~/.aws/credentials"
+#ci config
+alias ci-config="c /Users/nontachartkangtong/.circleci/cli.yml"
+
+#ssh config
+alias goto-ssh="cd /Users/nontachartkangtong/.ssh"
+alias ssh-config="c ~/.ssh/config"
+alias ssh-cat="cat ~/.ssh/config"
+alias host-config="c /etc/hosts"
+
+#project workspace
+alias goto-selfhosts="cd /Users/nontachartkangtong/workspace/self-hosts"
+alias goto-r8-backend="cd /Users/nontachartkangtong/workspace/r8/backend"
+alias open-tms-api="c /Users/nontachartkangtong/workspace/r8/tms-management-api"
+
+# defaultls
+DEFAULT_USER=`whoami`
+
+#nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # Better history
 # Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
 autoload -U up-line-or-beginning-search
@@ -48,3 +111,58 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+
+if [ $PWD = "/Users/nontachartkangtong" ] 
+  then
+    cd "workspace/"
+  fi
+
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+ECHO "End"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/nontachartkangtong/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+
+load-nvmrc() {
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+
+add-zsh-hook chpwd load-nvmrc
+# load-nvmrc
+# bun completions
+[ -s "/Users/nontachartkangtong/.bun/_bun" ] && source "/Users/nontachartkangtong/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/nontachartkangtong/.lmstudio/bin"
